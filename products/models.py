@@ -47,7 +47,7 @@ class MainCategory(models.Model):
 
 class SubCategory(models.Model):
     main_category = models.ForeignKey('MainCategory', on_delete = models.CASCADE)
-    name = models.CharField(max_length = 45)
+    name          = models.CharField(max_length = 45)
 
     class Meta:
         db_table = 'sub_categories'

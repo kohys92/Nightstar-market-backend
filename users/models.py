@@ -10,7 +10,7 @@ class User(models.Model):
     phone_number  = models.CharField(max_length = 40)
     address       = models.CharField(max_length = 200)
     
-    gender_choice       = (
+    gender_choice = (
             ("Man", "M"),
             ("Woman", "W"),
             ("No Select", "N")

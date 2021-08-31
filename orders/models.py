@@ -19,7 +19,7 @@ class OrderItem(models.Model):
         db_table = 'order_items'
 
 class OrderStatus(models.Model):
-    order_item = models.ForeignKey('OrderItem', on_delete = models.CASCADE)
+    order_item     = models.ForeignKey('OrderItem', on_delete = models.CASCADE)
     product_status = models.CharField(max_length = 45)
 
     class Meta:
