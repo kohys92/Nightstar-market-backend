@@ -14,6 +14,7 @@ class Product(models.Model):
     created_at    = models.DateTimeField(auto_now_add = True)
     updated_at    = models.DateTimeField(auto_now = True)
     allergy       = models.ManyToManyField('Allergy')
+    user          = models.ManyToManyField('users.User', through = 'Cart', related_name = 'carts')
 
     class Meta:
         db_table = 'products'
@@ -51,4 +52,11 @@ class SubCategory(models.Model):
     class Meta:
         db_table = 'sub_categories'
 
+class Cart(models.Model):
+    product = models.ForeignKey('Product', on_delete = models.CASCADE)
+    user    = models.ForeignKey('users.User', on_delete = models.CASCADE)
+    purchase_quantity = models.IntegerField()
+
+    class Meta:
+        db_table = 'carts'
 

@@ -22,3 +22,5 @@ class OrderItemStatus(models.Model):
 
     class Meta:
         db_table = 'order_statuses'
+
+
