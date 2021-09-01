@@ -1,7 +1,7 @@
 from django.db import models
 
 class Order(models.Model):
-    user         = models.ForeignKey('users.User', on_delete = models.SET_NULL)
+    user         = models.ForeignKey('users.User', on_delete = models.SET_NULL, null = True)
     order_status = models.CharField(max_length = 45)
     product      = models.ManyToManyField('products.Product', through = 'OrderItem', related_name = 'orders')
 
