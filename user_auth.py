@@ -16,9 +16,9 @@ def authentication(func):
 
             payload = jwt.decode(access_token, SECRET_KEY, ALGORITHM)
             user_id = payload['id']
-            if User.objects.get(id = user_id):
-                user = User.objects.get(id = user_id)
-                request.user = user
+            
+            user = User.objects.get(id = user_id)
+            request.user = user
 
         except jwt.exceptions.DecodeError:
             return JsonResponse({ 'MESSAGE' : 'INVALID TOKEN' }, status = 400)
@@ -26,8 +26,8 @@ def authentication(func):
         except User.DoesNotExist:
             return JsonResponse({ 'MESSAGE' : 'INVALID USER' }, status = 400)
 
-        except Exception as e:
-            return JsonResponse({ 'MESSAGE' : e}, status = 500)
+        #except Exception as e:
+            #return JsonResponse({ 'MESSAGE' : e}, status = 500)
 
         return func(self, request, *args, **kwargs)
     
