@@ -11,10 +11,10 @@ from my_settings import SECRET_KEY
 
 class SignUpView(View):
     def post(self, request):
-        data = json.loads(request.body)
+        data               = json.loads(request.body)
         account_name_regex = re.compile(r'^[a-z]+[a-z0-9]{6,16}$')
-        email_regex    = re.compile(r'^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$')
-        password_regex = re.compile(r'^(?=.*[A-Z])(?=.*[0-9])(?!.*?\d{3})(?=.*[a-z])(?=.*[!@#$%^*+=-]).{10,16}$')
+        email_regex        = re.compile(r'^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$')
+        password_regex     = re.compile(r'^(?=.*[A-Z])(?=.*[0-9])(?!.*?\d{4})(?=.*[a-z])(?=.*[!@#$%^*+=-]).{10,16}$')
 
         try:
             account_name  = data['account_name']
