@@ -39,8 +39,12 @@ with open(CSV_PATH_PRODUCTS) as in_file:
         
         allergy_list = row[13].split(',')
         for allergy in allergy_list:
-            if not Allergy.objects.filter(name = allergy).exists() and allergy != '':
-                Allergy.objects.create(name = allergy)
+            if (not Allergy.objects.filter(name = allergy).exists()) and allergy != '':
+                al = Allergy.objects.create(name = allergy)
+                product.allergy.add(al)
+                
+                
+        
 
             
 
