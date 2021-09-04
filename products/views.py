@@ -30,6 +30,7 @@ class ProductViewer(View):
                     'main_category' : product.sub_category.main_category.name,
                     'menu'          : product.sub_category.main_category.menu.name,
                     'image_list'    : [img.image_url for img in product.productimage_set.all()],
+                    'allergy_list'  : [allergies.name for allergies in product.allergy.all()],
                 } for product in products]}, status = 200)
             
         except KeyError:
