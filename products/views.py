@@ -9,43 +9,7 @@ from django.http import JsonResponse
 
 from .models import Menu, MainCategory, SubCategory, Product, ProductImage, Allergy 
 
-class ProductViewer(View):
-    def post(self, request):
-        try:            
-            data          = json.loads(request.body) 
-            menu          = Menu.objects.create(name = data['menu'])
-            main_category = MainCategory.objects.create(name= data['main_category'], menu = menu)
-            sub_category  = SubCategory.objects.create(name = data['sub_category'], main_category = main_category)
-            product       = Product.objects.create(
-                name          = data['name'],
-                sub_category  = sub_category, 
-                price         = data['price'],
-                discount      = data['discount'],
-                sales_unit    = data['sales_unit'],
-                weight        = data['weight'],
-                shipping_type = data['shipping_type'],
-                origin        = data['origin'],
-                package_type  = data['package_type'],
-                infomation    = data['infomation'],
-                created_at    = ''.replace(microsecond = 0),
-                updated_at    = ''.replace(microsecond = 0),
-                )
-            
-            ProductImage.objects.create(
-                image_url = data['image_url'],
-                product   = product,
-            )        
-            
-            Allergy.objects.create(
-                name    = data['allergy'],
-                product = product,
-            )
-            
-            return JsonResponse({'message' : 'CREATED'}, status = 201)
-        
-        except KeyError:
-            return JsonResponse({'message' : 'KEY_ERROR'}, status = 400)
-        
+class ProductViewer(View):     
     def get(self,request):
         try:
             products = Product.objects.all()
