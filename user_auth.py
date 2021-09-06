@@ -3,7 +3,7 @@ import jwt, json
 from django.http import JsonResponse
 from django.core.exceptions import ObjectDoesNotExist
 
-from .my_settings import SECRET_KEY, ALGORITHM
+from my_settings import SECRET_KEY, ALGORITHM
 from users.models import User
 
 def authentication(func):
@@ -12,19 +12,19 @@ def authentication(func):
             access_token = request.headers.get('Authorization', None)
 
             if not access_token:
-                return JsonResponse({ 'MESSAGE' : 'NO TOKEN' }, status = 400)
+                return JsonResponse({ 'MESSAGE' : 'NO TOKEN' }, status = 403)
 
             payload = jwt.decode(access_token, SECRET_KEY, ALGORITHM)
             user_id = payload['id']
 
             user = User.objects.get(id = user_id)
-            request.user = user
+            request.user = user.id
 
         except jwt.exceptions.DecodeError:
-            return JsonResponse({ 'MESSAGE' : 'INVALID TOKEN' }, status = 400)
+            return JsonResponse({ 'MESSAGE' : 'INVALID TOKEN' }, status = 403)
 
         except User.DoesNotExist:
-            return JsonResponse({ 'MESSAGE' : 'INVALID USER' }, status = 400)
+            return JsonResponse({ 'MESSAGE' : 'INVALID USER' }, status = 403)
 
         #except Exception as e:
             #return JsonResponse({ 'MESSAGE' : e}, status = 500)
