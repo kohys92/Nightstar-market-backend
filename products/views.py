@@ -32,4 +32,4 @@ class ProductViewer(View):
                 } for product in products]}, status = 200)
             
         except KeyError:
-            return JsonResponse({'MESSAGE' : 'kEY_ERROR'}, status = 400)
+            return JsonResponse({'MESSAGE' : 'KEY_ERROR'}, status = 400)
