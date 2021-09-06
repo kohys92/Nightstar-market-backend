@@ -14,7 +14,7 @@ class User(models.Model):
     phone_number  = models.CharField(max_length = 40)
     address       = models.CharField(max_length = 200)
     gender        = models.CharField(max_length = 10, choices = gender_choice)
-    date_of_birth = models.DateField()
+    date_of_birth = models.CharField(max_length = 20, default='')
 
     class Meta:
         db_table = 'users'
