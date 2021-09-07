@@ -18,15 +18,6 @@ class SignUpView(View):
         password_regex     = re.compile(r'^(?=.*[A-Z])(?=.*[0-9])(?!.*?\d{4})(?=.*[a-z])(?=.*[!@#$%^*+=-]).{10,16}$')
         date_regex         = re.compile(r'^\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$')
 
-        if not data.get('name'):
-            return JsonResponse({'message' : "No name"}, status = 400)
-        
-        if not data.get('phone_number'):
-            return JsonResponse({'message' : "No phone_number"}, status = 400)
-        
-        if not data.get('address'):
-            return JsonResponse({'message' : "No address"}, status = 400)
-
         try:
             account_name  = data['account_name']
             password      = data['password']
@@ -49,11 +40,8 @@ class SignUpView(View):
             if not password_regex.match(password):
                 return JsonResponse({"message" : "INVALID_PASSWORD"}, status = 400)
             
-            if not date_regex.match(date_of_birth):
-                if date_of_birth == '':
-                    date_of_birth = '' 
-                else:
-                    return JsonResponse({"message" : "INVALID_DATE"}, status = 400)
+            if date_of_birth == '':
+                date_of_birth = '0001-01-01'
             
             User.objects.create(
                 account_name  = account_name,
