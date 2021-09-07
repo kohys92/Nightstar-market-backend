@@ -4,8 +4,6 @@ from django.http  import JsonResponse
 from django.views import View
 
 from products.models import Product, Cart
-from orders.models   import Order, OrderItem
-from users.models    import User
 from user_auth       import authentication
 
 class CartView(View):
@@ -18,17 +16,22 @@ class CartView(View):
             user_id           = current_user_id
             product_id        = data['product_id']
             purchase_quantity = data['quantity']
-            current_quantity  = 0
 
             if not Product.objects.filter(id = product_id).exists():
                 return JsonResponse( {'MESSAGE' : 'PRODUCT DOES NOT EXIST'}, status = 400)
 
-            if Cart.objects.filter(user_id= user_id, product_id = product_id):
-                current_quantity = Cart.objects.get(user_id = user_id, product_id = product_id).purchase_quantity
+            if Cart.objects.filter(user_id = user_id, product_id = product_id).exists():
+                current_product                   = Cart.objects.get(product_id = product_id, user_id = user_id)
+                current_product_quantity          = current_product.purchase_quantity
+                current_product.purchase_quantity = current_product_quantity + int(purchase_quantity)
+                current_product.save()
 
-            Cart.objects.update_or_create(product_id = product_id, user_id = user_id, defaults = { 'purchase_quantity' : int(current_quantity) + int(purchase_quantity) })
-
-
+            else:
+                Cart.objects.create(
+                    user_id           = user_id,
+                    product_id        = product_id, 
+                    purchase_quantity = purchase_quantity
+                    )
 
             return JsonResponse( {'MESSAGE' : 'CREATED'}, status = 201)
 

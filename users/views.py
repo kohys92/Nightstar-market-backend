@@ -2,6 +2,7 @@ import json
 import re
 import bcrypt
 import jwt
+from datetime import datetime, timedelta
 
 from django.views import View
 from django.http import JsonResponse
@@ -63,7 +64,8 @@ class LogInView(View):
             if User.objects.filter(account_name = account_name).exists():
                 user_account_name = User.objects.get(account_name = account_name)
                 if bcrypt.checkpw(password.encode('utf-8'), user_account_name.password.encode('utf-8')):
-                    token = jwt.encode({'id' : user_account_name.id}, SECRET_KEY, algorithm='HS256')
+                    token = jwt.encode({'exp' : (datetime.utcnow() + timedelta(seconds=360)), 'id' : user_account_name.id}, SECRET_KEY, algorithm='HS256')
+                  
                     return JsonResponse({"message" : "LogIn Success", "Token" : token}, status = 200)
                 return JsonResponse({"message" : "INVALID_PASSWORD"}, status = 401)
             return JsonResponse({"message" : "INVALID_USER"}, status = 401)
