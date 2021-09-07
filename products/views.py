@@ -27,7 +27,7 @@ class ProductViewer(View):
                     'sub_category'  : product.sub_category.name,
                     'main_category' : product.sub_category.main_category.name,
                     'menu'          : product.sub_category.main_category.menu.name,
-                    'image_list'    : [img.image_url for img in product.productimage_set.all()],
+                    'image_list'    : product.productimage_set.all().first().image_url,#[img.image_url for img in product.productimage_set.all()],
                     'allergy_list'  : [allergies.name for allergies in product.allergy.all()],
                 } for product in products]}, status = 200)
             
