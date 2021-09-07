@@ -5,6 +5,7 @@ import jwt
 
 from django.views import View
 from django.http import JsonResponse
+from datetime import datetime, timedelta
 
 from users.models import User
 from my_settings import SECRET_KEY
@@ -15,6 +16,7 @@ class SignUpView(View):
         account_name_regex = re.compile(r'^[a-z]+[a-z0-9]{6,16}$')
         email_regex        = re.compile(r'^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$')
         password_regex     = re.compile(r'^(?=.*[A-Z])(?=.*[0-9])(?!.*?\d{4})(?=.*[a-z])(?=.*[!@#$%^*+=-]).{10,16}$')
+        date_regex         = re.compile(r'^\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$')
 
         try:
             account_name  = data['account_name']
@@ -37,6 +39,9 @@ class SignUpView(View):
 
             if not password_regex.match(password):
                 return JsonResponse({"message" : "INVALID_PASSWORD"}, status = 400)
+            
+            if date_of_birth == '':
+                date_of_birth = '0001-01-01'
             
             User.objects.create(
                 account_name  = account_name,
@@ -64,7 +69,7 @@ class LogInView(View):
                 user_account_name = User.objects.get(account_name = account_name)
                 if bcrypt.checkpw(password.encode('utf-8'), user_account_name.password.encode('utf-8')):
                     token = jwt.encode({'id' : user_account_name.id}, SECRET_KEY, algorithm='HS256')
-                    return JsonResponse({"message" : "LogIn Success", "Token" : token}, status = 200)
+                    return JsonResponse({"message" : "LOGIN_SUCCESS", "Token" : token}, status = 200)
                 return JsonResponse({"message" : "INVALID_PASSWORD"}, status = 401)
             return JsonResponse({"message" : "INVALID_USER"}, status = 401)
         except KeyError:
