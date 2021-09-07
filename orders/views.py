@@ -6,7 +6,7 @@ from django.views import View
 from products.models import Product, Cart
 from orders.models   import Order, OrderItem
 from users.models    import User
-from user_auth     import authentication
+from user_auth       import authentication
 
 class CartView(View):
     @authentication
@@ -56,34 +56,3 @@ class CartView(View):
             )
         
         return JsonResponse( {'MESSAGE' : res}, status = 201)
-
-class OrderView(View):
-    @authentication
-    def post(self, request):
-        data = json.loads(request.body)
-        
-        cur_user_id = request.user
-
-        try:
-            products = data['products']
-            
-            order = Order.objects.create(
-                    user_id      = cur_user_id,
-                    order_status = '주문 완료',
-            )
-
-            for product in products:
-                product_id = product['product_id']
-                quantity   = product['quantity']
-
-                OrderItem.objects.create(
-                    product_id           = product_id,
-                    order_id             = order.id,
-                    quantity             = quantity,
-                    order_item_status_id = "1"
-                )
-
-            return JsonResponse( {'MESSAGE' : 'CREATED'}, status = 201)
-
-        except KeyError:
-            return JsonResponse( {'MESSAGE' : 'KEY ERROR'}, status = 400)
