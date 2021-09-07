@@ -28,6 +28,8 @@ class CartView(View):
 
             Cart.objects.update_or_create(product_id = product_id, user_id = user_id, defaults = { 'purchase_quantity' : int(current_quantity) + int(purchase_quantity) })
 
+
+
             return JsonResponse( {'MESSAGE' : 'CREATED'}, status = 201)
 
         except KeyError:
