@@ -42,17 +42,12 @@ class CartView(View):
         if not carts.exists():
             return JsonResponse( {'MESSAGE' : 'EMPTY CART'}, status = 204)
         
-        res   = []
-        for cart in carts:
-
-            res.append(
-                {
+        return JsonResponse( {'MESSAGE' : [
+            {
                 "product_img"  : cart.product.productimage_set.first().image_url,
                 "price"        : cart.product.price,
                 "name"         : cart.product.name,
                 "package_type" : cart.product.package_type[:2],
                 "quantity"     : cart.purchase_quantity
                 }
-            )
-        
-        return JsonResponse( {'MESSAGE' : res}, status = 201)
+        for cart in carts]}, status = 201)
