@@ -26,6 +26,7 @@ class SignUpView(View):
             address       = data['address']
             gender        = data['gender']
             date_of_birth = data['date_of_birth']
+            print(date_of_birth)
 
             if User.objects.filter(email = email).exists():
                 return JsonResponse({"message" : "EXIST USER"}, status = 400)

@@ -7,7 +7,7 @@ from products.models import Product, Cart
 from user_auth       import authentication
 
 class CartView(View):
-    @authentication
+    #@authentication
     def post(self, request):
         data        = json.loads(request.body)
         current_user_id = request.user
@@ -21,9 +21,8 @@ class CartView(View):
                 return JsonResponse( {'MESSAGE' : 'PRODUCT DOES NOT EXIST'}, status = 400)
 
             if Cart.objects.filter(user_id = user_id, product_id = product_id).exists():
-                current_product                   = Cart.objects.get(product_id = product_id, user_id = user_id)
-                current_product_quantity          = current_product.purchase_quantity
-                current_product.purchase_quantity = current_product_quantity + int(purchase_quantity)
+                current_product                    = Cart.objects.get(product_id = product_id, user_id = user_id)
+                current_product.purchase_quantity += int(purchase_quantity)
                 current_product.save()
 
             else:
@@ -38,7 +37,7 @@ class CartView(View):
         except KeyError:
             return JsonResponse( {'MESSAGE' : 'KEY ERROR'}, status = 400)
 
-    @authentication
+    #@authentication
     def get(self, request):
         current_user_id = request.user
         
