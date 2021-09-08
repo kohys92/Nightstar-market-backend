@@ -7,7 +7,7 @@ from products.models import Product, Cart
 from user_auth       import authentication
 
 class CartView(View):
-    #@authentication
+    @authentication
     def post(self, request):
         data        = json.loads(request.body)
         current_user_id = request.user
@@ -37,7 +37,7 @@ class CartView(View):
         except KeyError:
             return JsonResponse( {'MESSAGE' : 'KEY ERROR'}, status = 400)
 
-    #@authentication
+    @authentication
     def get(self, request):
         current_user_id = request.user
         
