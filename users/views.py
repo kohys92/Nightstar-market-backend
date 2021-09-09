@@ -59,7 +59,7 @@ class SignUpView(View):
             return JsonResponse({"message" : "KEY_ERROR"}, status = 400)
 
 
-class DuplicationView(View):
+class AccountDuplicationView(View):
     def post(self, request):
         data = json.loads(request.body)
       
@@ -68,8 +68,7 @@ class DuplicationView(View):
 
             if User.objects.filter(account_name = account_name).exists():
                 return JsonResponse({"message" : "EXIST_USER"}, status = 401)
-            else:
-                return JsonResponse({"message" : "POSSIBLE"}, status = 200)
+            return JsonResponse({"message" : "POSSIBLE"}, status = 200)
         except KeyError:
             return JsonResponse({"message" : "KEY_ERROR"}, status = 400)
 
