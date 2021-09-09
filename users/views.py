@@ -2,7 +2,6 @@ import json
 import re
 import bcrypt
 import jwt
-from datetime import datetime, timedelta
 
 from django.views import View
 from django.http import JsonResponse
@@ -58,6 +57,21 @@ class SignUpView(View):
             return JsonResponse({"message" : "SUCCESS"}, status = 201)
         except KeyError:
             return JsonResponse({"message" : "KEY_ERROR"}, status = 400)
+
+
+class AccountDuplicationView(View):
+    def post(self, request):
+        data = json.loads(request.body)
+      
+        try:
+            account_name = data['account_name']  
+
+            if User.objects.filter(account_name = account_name).exists():
+                return JsonResponse({"message" : "EXIST_USER"}, status = 401)
+            return JsonResponse({"message" : "POSSIBLE"}, status = 200)
+        except KeyError:
+            return JsonResponse({"message" : "KEY_ERROR"}, status = 400)
+
 
 class LogInView(View):
     def post(self, request):
