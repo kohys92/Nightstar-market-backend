@@ -9,7 +9,7 @@ from user_auth       import authentication
 class CartView(View):
     @authentication
     def post(self, request):
-        data        = json.loads(request.body)
+        data            = json.loads(request.body)
         current_user_id = request.user
 
         try:
@@ -55,3 +55,21 @@ class CartView(View):
                 "quantity"     : cart.purchase_quantity
                 }
         for cart in carts]}, status = 201)
+
+    @authentication
+    def delete(self, request):
+        try:
+            current_user_id = request.user
+            selected_list   = request.GET.getlist('product-id')
+
+            product_in_cart = Cart.objects.filter(product_id__in = selected_list, user_id = current_user_id)
+            
+            if not product_in_cart.exists():
+                return JsonResponse( {'MESSAGE' : 'NO ITEM TO REMOVE'}, status = 400)
+
+            product_in_cart.delete()
+
+            return JsonResponse( {'MESSAGE' : 'SUCCESSFULLY DELETED'}, status = 200)
+            
+        except KeyError:
+            return JsonResponse( {'MESSAGE' : 'KEY ERROR'}, status = 400)
