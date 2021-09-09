@@ -7,13 +7,13 @@ from products.models import Product, Cart
 from user_auth       import authentication
 
 class CartView(View):
-    #@authentication
+    @authentication
     def post(self, request):
         data            = json.loads(request.body)
-        #current_user_id = request.user
+        current_user_id = request.user
 
         try:
-            user_id           = 1#current_user_id
+            user_id           = current_user_id
             product_id        = data['product_id']
             purchase_quantity = data['quantity']
 
@@ -37,11 +37,11 @@ class CartView(View):
         except KeyError:
             return JsonResponse( {'MESSAGE' : 'KEY ERROR'}, status = 400)
 
-    #@authentication
+    @authentication
     def get(self, request):
-        #current_user_id = request.user
+        current_user_id = request.user
         
-        carts = Cart.objects.filter(user_id = 1)#current_user_id)
+        carts = Cart.objects.filter(user_id = current_user_id)
 
         if not carts.exists():
             return JsonResponse( {'MESSAGE' : 'EMPTY CART'}, status = 204)
@@ -57,15 +57,18 @@ class CartView(View):
         for cart in carts]}, status = 201)
 
     @authentication
-    def delete(self, request, product_id):
-        current_user_id = request.user
-
+    def delete(self, request):
         try:
-            if not Cart.objects.filter(product_id = product_id, user_id = current_user_id).exists():
-                return JsonResponse( {'MESSAGE' : 'NO ITEM TO REMOVE'}, status = 400)
+            current_user_id = request.user
+            selected_list   = request.GET.get('product-id').split(',')
 
-            Cart.objects.get(product_id = product_id, user_id = current_user_id).delete()
+            for select in selected_list:
+                if not Cart.objects.filter(product_id = select, user_id = current_user_id).exists():
+                    return JsonResponse( {'MESSAGE' : 'NO ITEM TO REMOVE'}, status = 400)
+
+                Cart.objects.get(product_id = select, user_id = current_user_id).delete()
+                
             return JsonResponse( {'MESSAGE' : 'SUCCESSFULLY DELETED'}, status = 200)
-        
+            
         except KeyError:
             return JsonResponse( {'MESSAGE' : 'KEY ERROR'}, status = 400)
