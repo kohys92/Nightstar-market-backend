@@ -14,9 +14,9 @@ from my_settings import SECRET_KEY
 class SignUpView(View):
     def post(self, request):
         data               = json.loads(request.body)
-        account_name_regex = re.compile(r'^[a-z]+[a-z0-9]{6,16}$')
+        account_name_regex = re.compile(r'^[a-z]+[a-z0-9]{5,16}$')
         email_regex        = re.compile(r'^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$')
-        password_regex     = re.compile(r'^(?=.*[A-Z])(?=.*[0-9])(?!.*?\d{4})(?=.*[a-z])(?=.*[!@#$%^*+=-]).{10,16}$')
+        password_regex     = re.compile(r'^(?=.*[A-Z])(?=.*[0-9])(?!.*?\d{4})(?=.*[a-z])(?=.*[!@#$%^*+=-]).{9,16}$')
         date_regex         = re.compile(r'^\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$')
 
         try:
@@ -42,7 +42,7 @@ class SignUpView(View):
             if not password_regex.match(password):
                 return JsonResponse({"message" : "INVALID_PASSWORD"}, status = 400)
             
-            if date_of_birth == '':
+            if date_of_birth == '--' or 'undefined-undefined-undefined':
                 date_of_birth = '0001-01-01'
             
             User.objects.create(
