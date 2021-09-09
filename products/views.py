@@ -1,9 +1,11 @@
+import random
+
 from django.views import View
 from django.http import JsonResponse
 
-from .models import Product 
+from .models import Product
 
-class ProductViewer(View):  
+class ProductView(View):  
     def get(self,request):
         try:
             if not Product.objects.all():
@@ -13,6 +15,7 @@ class ProductViewer(View):
             
             return JsonResponse({'products' : [
                 {
+                    'id'            : product.id,
                     'name'          : product.name,
                     'price'         : product.price,
                     'discount'      : product.discount,
@@ -33,3 +36,53 @@ class ProductViewer(View):
             
         except KeyError:
             return JsonResponse({'MESSAGE' : 'KEY_ERROR'}, status = 400)
+
+class DetailView(View):
+    def get(self, request, product_id):
+        try:
+            if not Product.objects.filter(id = product_id).exists():
+                return JsonResponse({'MESSAGE' : 'NOT FOUND'}, status = 404)
+            
+            product = Product.objects.get(id = product_id)
+
+            main_id          = product.sub_category.main_category_id
+            related_products = Product.objects.filter(sub_category__main_category_id = main_id)
+
+            if related_products.count() < 10:
+                related_products = list(related_products)
+            else:
+                related_products = random.sample(list(related_products), 10)
+            
+            selected_products = [{
+                    "image_url" : current_product.productimage_set.first().image_url,
+                    "price"     : current_product.price,
+                    "name"      : current_product.name,
+                    } for current_product in related_products]
+
+            return JsonResponse(
+                {
+                    'id'                : product.id,
+                    'name'              : product.name,
+                    'price'             : product.price,
+                    'discount'          : product.discount,
+                    'sales_unit'        : product.sales_unit,
+                    'weight'            : product.weight,
+                    'shipping_type'     : product.shipping_type,
+                    'origin'            : product.origin,
+                    'package_type'      : product.package_type,
+                    'infomation'        : product.infomation,
+                    'created_at'        : product.created_at,
+                    'updated_at'        : product.updated_at,
+                    'sub_category'      : product.sub_category.name,
+                    'main_category'     : product.sub_category.main_category.name,
+                    'menu'              : product.sub_category.main_category.menu.name,
+                    'image_list'        : [img.image_url for img in product.productimage_set.all()],
+                    'allergy_list'      : [allergies.name for allergies in product.allergy.all()],
+                    'selected_products' : selected_products,
+                }, status = 200
+            )
+
+        except KeyError:
+            return JsonResponse({'MESSAGE' : 'KEY_ERROR'}, status = 400)
+
+
