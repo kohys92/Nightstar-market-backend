@@ -7,13 +7,13 @@ from products.models import Product, Cart
 from user_auth       import authentication
 
 class CartView(View):
-    @authentication
+    #@authentication
     def post(self, request):
         data            = json.loads(request.body)
-        current_user_id = request.user
+        #current_user_id = request.user
 
         try:
-            user_id           = current_user_id
+            user_id           = 1#current_user_id
             product_id        = data['product_id']
             purchase_quantity = data['quantity']
 
@@ -37,11 +37,11 @@ class CartView(View):
         except KeyError:
             return JsonResponse( {'MESSAGE' : 'KEY ERROR'}, status = 400)
 
-    @authentication
+    #@authentication
     def get(self, request):
-        current_user_id = request.user
+        #current_user_id = request.user
         
-        carts = Cart.objects.filter(user_id = current_user_id)
+        carts = Cart.objects.filter(user_id = 1)#current_user_id)
 
         if not carts.exists():
             return JsonResponse( {'MESSAGE' : 'EMPTY CART'}, status = 204)
@@ -57,13 +57,10 @@ class CartView(View):
         for cart in carts]}, status = 201)
 
     @authentication
-    def delete(self, request):
-        data            = json.loads(request.body)
+    def delete(self, request, product_id):
         current_user_id = request.user
 
         try:
-            product_id = data['product_id']
-
             if not Cart.objects.filter(product_id = product_id, user_id = current_user_id).exists():
                 return JsonResponse( {'MESSAGE' : 'NO ITEM TO REMOVE'}, status = 400)
 
