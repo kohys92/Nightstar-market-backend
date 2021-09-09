@@ -5,7 +5,7 @@ from django.http import JsonResponse
 
 from .models import Product
 
-class ProductViewer(View):  
+class ProductView(View):  
     def get(self,request):
         try:
             if not Product.objects.all():
@@ -37,34 +37,27 @@ class ProductViewer(View):
         except KeyError:
             return JsonResponse({'MESSAGE' : 'KEY_ERROR'}, status = 400)
 
-class DetailViewer(View):
-    def get(self, request, id):
+class DetailView(View):
+    def get(self, request, product_id):
         try:
-            if not Product.objects.filter(id = id).exists():
+            if not Product.objects.filter(id = product_id).exists():
                 return JsonResponse({'MESSAGE' : 'NOT FOUND'}, status = 404)
             
-            product = Product.objects.get(id = id)
+            product = Product.objects.get(id = product_id)
 
             main_id          = product.sub_category.main_category_id
             related_products = Product.objects.filter(sub_category__main_category_id = main_id)
 
             if related_products.count() < 10:
-                selected_products = [
-                {
-                    "image_url" : current_product.productimage_set.first().image_url,
-                    "price"     : current_product.price,
-                    "name"      : current_product.name
-                }
-                for current_product in related_products]
-
+                related_products = list(related_products)
             else:
-                selected_products = [
-                {
+                related_products = random.sample(list(related_products), 10)
+            
+            selected_products = [{
                     "image_url" : current_product.productimage_set.first().image_url,
                     "price"     : current_product.price,
-                    "name"      : current_product.name
-                }
-                for current_product in random.sample(list(related_products), 10)]
+                    "name"      : current_product.name,
+                    } for current_product in related_products]
 
             return JsonResponse(
                 {
