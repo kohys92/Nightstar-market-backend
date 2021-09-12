@@ -3,6 +3,10 @@
 <h1>신선식품 새벽배송 플랫폼 '마켓컬리' 클론 프로젝트</h1>
 본 프로젝트는 위코드 24기 1차 프로젝트이며 마켓컬리 사이트를 참조하여 학습을 목적으로 만들었습니다.
 
+## ▶️프로젝트 시연 영상<br>
+
+<iframe width="728" height="430" src="https://www.youtube.com/embed/DxWUIC6c57E" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
 ## 프로젝트 기간 🔥<br>
 
 2021.08.30 ~ 2021.09.10<br><br>
