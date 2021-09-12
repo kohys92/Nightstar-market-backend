@@ -5,7 +5,7 @@
 
 ## ▶️프로젝트 시연 영상<br>
 
-[![시연 영상 바로가기](https://img.youtube.com/vi/DxWUIC6c57E/maxresdefault.jpg)](https://www.youtube.com/watch?v=DxWUIC6c57E)
+[![시연 영상 바로가기](https://img.youtube.com/vi/DxWUIC6c57E/0.jpg)](https://www.youtube.com/watch?v=DxWUIC6c57E)
 
 ## 프로젝트 기간 🔥<br>
 
