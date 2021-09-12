@@ -5,7 +5,7 @@
 
 ## ▶️프로젝트 시연 영상<br>
 
-- <iframe width="728" height="430" src="https://www.youtube.com/embed/DxWUIC6c57E" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+[![시연 영상 바로가기](https://img.youtube.com/vi/DxWUIC6c57E/maxresdefault.jpg)](https://www.youtube.com/watch?v=DxWUIC6c57E)
 
 ## 프로젝트 기간 🔥<br>
 
