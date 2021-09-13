@@ -1,3 +1,38 @@
 Django==3.2.4
 django-cors-headers==3.7.0
 mysqlclient==2.0.3
+appnope @ file:///opt/concourse/worker/volumes/live/5f13e5b3-5355-4541-5fc3-f08850c73cf9/volume/appnope_1606859448618/work
+asgiref==3.4.1
+backcall @ file:///home/ktietz/src/ci/backcall_1611930011877/work
+bcrypt==3.2.0
+certifi==2021.5.30
+cffi==1.14.6
+charset-normalizer==2.0.4
+cryptography==3.4.8
+decorator @ file:///tmp/build/80754af9/decorator_1621259047763/work
+Django==3.2.6
+django-cors-headers==3.8.0
+httpie==2.4.0
+idna==3.2
+ipython @ file:///opt/concourse/worker/volumes/live/07715ef4-018a-4861-7ab6-83f7f2b21c2b/volume/ipython_1628243930772/work
+ipython-genutils @ file:///tmp/build/80754af9/ipython_genutils_1606773439826/work
+jedi @ file:///opt/concourse/worker/volumes/live/904d39c2-2f20-46c0-487d-9a3d2725434d/volume/jedi_1611333757211/work
+jwt==1.2.0
+matplotlib-inline @ file:///tmp/build/80754af9/matplotlib-inline_1628242447089/work
+mysqlclient==2.0.3
+parso @ file:///tmp/build/80754af9/parso_1617223946239/work
+pexpect @ file:///tmp/build/80754af9/pexpect_1605563209008/work
+pickleshare @ file:///tmp/build/80754af9/pickleshare_1606932040724/work
+prompt-toolkit @ file:///tmp/build/80754af9/prompt-toolkit_1616415428029/work
+ptyprocess @ file:///tmp/build/80754af9/ptyprocess_1609355006118/work/dist/ptyprocess-0.7.0-py2.py3-none-any.whl
+pycparser==2.20
+Pygments @ file:///tmp/build/80754af9/pygments_1629234116488/work
+PySocks==1.7.1
+pytz==2021.1
+requests==2.26.0
+requests-toolbelt==0.9.1
+six==1.16.0
+sqlparse==0.4.1
+traitlets @ file:///home/ktietz/src/ci/traitlets_1611929699868/work
+urllib3==1.26.6
+wcwidth @ file:///tmp/build/80754af9/wcwidth_1593447189090/work
