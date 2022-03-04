@@ -33,7 +33,7 @@
 - Ubuntu
 - Conda 4.10.3 version
 - Django 3.2.6 version
-- MySQL 5.7 version
+- MySQL 8.0 version
 - mysqlclient 2.0.3 version
 - Django-cors-headers 3.7.0 version
 
